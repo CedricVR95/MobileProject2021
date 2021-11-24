@@ -1,9 +1,29 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  return <View style={styles.container}></View>;
+  return (
+  <View style={styles.container}>
+    <StatusBar style="auto" hidden={true} />
+      <View>
+        
+      
+        <FlatList
+          renderItem={({item}) => 
+          <View style={styles.list}>
+            <Text>{item.strArtist}</Text>
+            <Text>{item.strStyle}</Text>
+            <Text>{item.strGenre}</Text>
+            <Text>{item.strBiographyEN}</Text>
+          </View>
+          }
+          keyExtractor={(item) => item.idArtist
+          }
+          data={artists}/>
+      </View>
+  </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -13,4 +33,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  list:{
+    padding: 20,
+    margin: 10,
+    backgroundColor: '#bbb'
+  }
 });
