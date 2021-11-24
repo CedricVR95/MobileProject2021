@@ -20,7 +20,7 @@ export default function App() {
           }
           keyExtractor={(item) => item.idArtist
           }
-          data={artists}/>
+          data={trackInfoByTrackId.data.track[0]}/>
       </View>
   </View>
   );
