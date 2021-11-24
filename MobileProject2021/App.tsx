@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { artists } from "./test";
 
 export default function App() {
   return (
@@ -20,7 +21,7 @@ export default function App() {
           }
           keyExtractor={(item) => item.idArtist
           }
-          data={trackInfoByTrackId.data.track[0]}/>
+          data={artists}/>
       </View>
   </View>
   );
