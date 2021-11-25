@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   TextInputChangeEventData,
   TouchableOpacity,
+  StyleSheet
 } from "react-native";
 import { Artist } from "../../types";
 
@@ -41,7 +42,7 @@ const SearchArtist = (props: SearchArtistProps) => {
   };
 
   return (
-    <View>
+    <View style={styles.search}>
       <Text>Look for an artist by entering their name</Text>
       <TextInput
         onChangeText={handleChange}
@@ -56,5 +57,12 @@ const SearchArtist = (props: SearchArtistProps) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  search:{
+    flex:10,
+    marginTop:30
+  }
+});
 
 export default SearchArtist;
