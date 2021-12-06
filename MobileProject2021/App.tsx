@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import axios from "axios";
-import VoorbeeldArtisten from "./components/VoorbeeldArtisten/VoorbeeldArtisten";
+import VoorbeeldArtist from "./components/VoorbeeldArtisten/VoorbeeldArtisten";
 
-export interface DataArtist {
+export interface Artist {
   idArtist?: number;
   idLabel?: number;
   intBornYear?: number;
@@ -31,35 +31,33 @@ export interface DataArtist {
   strBiographyFR?: string;
 }
 
-export default async function App() {
-  const [Voorbeeldartist, VoorbeeldsetArtist] = useState<DataArtist[]>([]);
-  const [loading, setLoading] = useState(true);
+const baseURL = "https://theaudiodb.com/api/v1/json/2";
+const getArtistInfoByArtistName: string = "/search.php?s=";
 
-  const baseURL = "https://theaudiodb.com/api/v1/json/1";
-  // const artistName: string = "nirvana";
-  const getArtistInfoByArtistName: string = "/search.php?s=";
+export default function App() {
+  
+  const [artistName, setArtistName] = useState<string[]>([]);
+  const [VoorbeeldartistData, setVoorbeeldArtistData] = useState<Artist>({});
+  
   //--- AJAX CALLS ---
-  let voorbeeldArtist: string[] = ["coldplay", "daft_punk", "nirvana", "imagine_dragons", "The_Weeknd"]
-    const loadVoorbeeldArtistData = async() => {
-      setLoading(true);
+  const getVoorbeeldArtistDataByName = async (artistName: any) => {
+    
       const artistDataByName = await axios({
         method: "get",
-        url: baseURL + getArtistInfoByArtistName + voorbeeldArtist,
-      });
+        url: baseURL + getArtistInfoByArtistName + artistName,
+      })
+      for(let i = 0; i < artistName.length; i++) {
+        setVoorbeeldArtistData(artistDataByName.data.artists[i]);
+      }
       
-      VoorbeeldsetArtist(artistDataByName.data.artists[0])
-      setLoading(false);
-    }
-      useEffect(() => {
-        loadVoorbeeldArtistData();
-        },[]);
+    
+  };
   return (
     <View style={styles.container}> 
       <StatusBar style="auto" hidden={true} />
       <View>
-      {loading ? <div>Loading data</div> :
-        <VoorbeeldArtisten   name={Voorbeeldartist} />}
       
+      <VoorbeeldArtist state={artistName} getData={getVoorbeeldArtistDataByName} setState={setArtistName} artistData={VoorbeeldartistData}/>
         
       </View>
     </View>
@@ -79,3 +77,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#bbb'
   }
 });
+
+/*
+const [Voorbeeldartist, setVoorbeeldArtist] = useState<DataArtist[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const baseURL = "https://theaudiodb.com/api/v1/json/2";
+  // const artistName: string = "nirvana";
+  const getArtistInfoByArtistName: string = "/search.php?s=";
+  //--- AJAX CALLS ---
+  let voorbeeldArtist: string[] = ["coldplay", "daft_punk", "nirvana", "imagine_dragons", "The_Weeknd"]
+    const loadVoorbeeldArtistData = async() => {
+      setLoading(true);
+      const artistDataByName = await axios({
+        method: "get",
+        url: baseURL + getArtistInfoByArtistName + voorbeeldArtist,
+      });
+      
+      setVoorbeeldArtist(artistDataByName.data.artists[0])
+      setLoading(false);
+    }
+      useEffect(() => {
+        loadVoorbeeldArtistData();
+        },[]);*/

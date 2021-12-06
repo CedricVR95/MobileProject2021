@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "https://theaudiodb.com/api/v1/json/1";
+const baseURL = "https://theaudiodb.com/api/v1/json/2";
 
 //--- STRINGS FOR DIFFERENT API CALLS ---
 const artistName: string = "nirvana";

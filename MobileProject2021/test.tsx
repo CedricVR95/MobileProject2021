@@ -1,3 +1,6 @@
+import { Artist } from "./App";
+
+
 export let artists = [
     {
         "idArtist": "111239",
