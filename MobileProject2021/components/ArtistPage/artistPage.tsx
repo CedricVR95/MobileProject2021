@@ -1,23 +1,53 @@
-import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import {Artist} from "../../types";
+import * as React from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import { Artist } from "../../types";
 
-interface ArtistPageProps{
-    artist: Artist
+interface ArtistPageProps {
+  artist: Artist;
 }
 
-const ArtistPage = (data: ArtistPageProps) => {
+const ArtistPage = ({
+  navigation,
+  artist,
+  artistId,
+  getAlbums,
+}: any) => {
+  const handlePress = async () => {
+    try {
+      let data = await getAlbums(artistId);
+      navigation.navigate("Album");
+    } catch (e: any) {
+      alert("Album data not found");
+    }
+  };
+
   return (
     <View style={styles.artistpage}>
       <Text>ARTIST</Text>
-        <Image source={{uri: data.artist.strArtistBanner}} style={{height: 100, width:200}}></Image>
-        <Image source={{uri: data.artist.strArtistLogo}} style={{height: 60}}></Image>
-      <Text>{data.artist.strArtist}</Text>
-      <Text>{data.artist.intFormedYear}</Text>
-      <Text>{data.artist.intMembers}</Text>
-      {/* <Text>{data.artist.strBiographyEN}</Text> */}
+      <Image
+        source={{ uri: artist.strArtistBanner }}
+        style={{ height: 100, width: 200 }}
+      ></Image>
+      <Image
+        source={{ uri: artist.strArtistLogo }}
+        style={{ height: 60 }}
+      ></Image>
+      <Text>{artist.strArtist}</Text>
+      <Text>{artist.intFormedYear}</Text>
+      <Text>{artist.intMembers}</Text>
+      <TouchableOpacity onPress={handlePress}>
+        <Text>Albums</Text>
+      </TouchableOpacity>
+      {/* <Text>{artist.strBiographyEN}</Text> */}
       {/* <TouchableOpacity></TouchableOpacity> */}
-  {/* intBornYear?: number;
+      {/* intBornYear?: number;
   intCharted?: string;
   intDiedYear?: string;
   intFormedYear?: string;
@@ -44,11 +74,9 @@ const ArtistPage = (data: ArtistPageProps) => {
 };
 
 const styles = StyleSheet.create({
-    artistpage:{
-        flex:30
-    }
-}
-
-)
+  artistpage: {
+    flex: 30,
+  },
+});
 
 export default ArtistPage;

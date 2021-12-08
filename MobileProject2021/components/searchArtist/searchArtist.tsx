@@ -1,10 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
-import {View,Text,TextInput,NativeSyntheticEvent,TextInputChangeEventData,TouchableOpacity,StyleSheet,Button} from "react-native";
+import * as React from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+  TouchableOpacity,
+  StyleSheet,
+  Button,
+} from "react-native";
 import { Artist } from "../../types";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {Navigation} from 'react-native-navigation';
+import { Navigation } from "react-native-navigation";
 interface SearchArtistProps {
   setState: any;
   state: string;
@@ -12,18 +21,20 @@ interface SearchArtistProps {
   /*ASK FOR TYPES*/
 }
 
-const SearchArtist = (/*{setState, state, getData}: SearchArtistProps,*/ {navigation, setState, state, getData}:any) => {
+const SearchArtist = ({ navigation, setState, state, getData }: any) => {
   const handleChange = (e: string) => {
     setState(e);
   };
-  
-  const handleSubmit = () => {
-    getData(state);
-    navigation.navigate("Artist");
+
+  const handleSubmit = async () => {
+    try {
+      await getData(state);
+      navigation.navigate("Artist");
+    } catch (e: any) {
+      alert("artist not found");
+    }
   };
-  const test = () => {
-    navigation.navigate("Artist");
-  }
+  const test = () => {};
 
   return (
     <View style={styles.search}>
@@ -44,10 +55,10 @@ const SearchArtist = (/*{setState, state, getData}: SearchArtistProps,*/ {naviga
 };
 
 const styles = StyleSheet.create({
-  search:{
-    flex:10,
-    marginTop:30
-  }
+  search: {
+    flex: 10,
+    marginTop: 30,
+  },
 });
 
 export default SearchArtist;

@@ -1,15 +1,16 @@
+import * as React from "react";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import SearchArtist from "./components/searchArtist/searchArtist";
-import { Artist } from "./types";
+import { Artist, Album } from "./types";
 import axios from "axios";
 import Footer from "./components/footer/footer";
-import ArtistPage from "./components/artistPage/artistPage";
+import ArtistPage from "./components/ArtistPage/artistPage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {Navigation} from 'react-native-navigation';
+import { Navigation } from "react-native-navigation";
 import AlbumPage from "./components/albumPage/albumPage";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,50 +31,62 @@ export default function App() {
   const [artistName, setArtistName] = useState<string>("");
   const [artistId, setArtistId] = useState<string>("");
   const [artistData, setArtistData] = useState<Artist>({});
+  const [albumData, setAlbumData] = useState<Album[]>([]); //type toevoegen
 
   //--- AJAX CALLS ---
   const getArtistDataByName = async (artistName: string) => {
-    try {
-      const artistDataByName = await axios({
-        method: "get",
-        url: baseURL + getArtistInfoByArtistName + artistName,
-      });
-      await setArtistData(artistDataByName.data.artists[0]);
-      await setArtistId(artistDataByName.data.artists[0].idArtist!.toString());
-    } catch (e: any) {
-      alert("Artist not found");
-    }
+    const artistDataByName = await axios({
+      method: "get",
+      url: baseURL + getArtistInfoByArtistName + artistName,
+    });
+    setArtistData(artistDataByName.data.artists[0]);
+    setArtistId(artistDataByName.data.artists[0].idArtist.toString());
   };
 
   const getAlbumInfoByArtistId = async (id: string) => {
-    try {
-      const discographyByName = await axios({
-        method: "get",
-        url: baseURL + getAllAlbumInfoByArtistId + id,
-      });
-      console.log(discographyByName.data.album[2]);
-    } catch (e: any) {
-      alert("Discography not found");
-    }
+    const albumInfoById = await axios({
+      method: "get",
+      url: baseURL + getAllAlbumInfoByArtistId + id,
+    });
+    setAlbumData(albumInfoById.data.album);
+    // setAlbumData(albumInfoById);
   };
+
+  //============================================================================================================================//
 
   return (
     <NavigationContainer>
       {/* <View style={styles.container}>
         <StatusBar style="auto" hidden={true} />
         <SearchArtist setState={setArtistName} state={artistName} getData={getArtistDataByName}></SearchArtist> */}
-        <Stack.Navigator initialRouteName='Search'>       
-          <Stack.Screen name="Search">
-            {props => <SearchArtist {...props} setState={setArtistName} state={artistName} getData={getArtistDataByName}/>}
-          </Stack.Screen>   
-          {/* <Stack.Screen name="Search" component={SearchArtist}/> */}
-          <Stack.Screen name="Artist">
-            {props => <ArtistPage {...props} artist={artistData}/>}
-          </Stack.Screen>
-          <Stack.Screen name="Album" component={AlbumPage}/>
-        </Stack.Navigator>
-        {/* <ArtistPage artist={artistData}></ArtistPage> */}
-        {/* <Footer></Footer> */}
+      <Stack.Navigator initialRouteName="Search">
+        <Stack.Screen name="Search">
+          {(props) => (
+            <SearchArtist
+              {...props}
+              setState={setArtistName}
+              state={artistName}
+              getData={getArtistDataByName}
+            />
+          )}
+        </Stack.Screen>
+        {/* <Stack.Screen name="Search" component={SearchArtist}/> */}
+        <Stack.Screen name="Artist">
+          {(props) => (
+            <ArtistPage
+              {...props}
+              artist={artistData}
+              artistId={artistId}
+              getAlbums={getAlbumInfoByArtistId}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Album">
+          {(props) => <AlbumPage {...props} albumData={albumData} />}
+        </Stack.Screen>
+      </Stack.Navigator>
+      {/* <ArtistPage artist={artistData}></ArtistPage> */}
+      {/* <Footer></Footer> */}
       {/* </View> */}
     </NavigationContainer>
   );

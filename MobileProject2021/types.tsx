@@ -2,10 +2,10 @@ export interface Artist {
     idArtist?: number;
     idLabel?: number;
     intBornYear?: number;
-    intCharted?: string;
-    intDiedYear?: string;
-    intFormedYear?: string;
-    intMembers?: string;
+    intCharted?: number;
+    intDiedYear?: number;
+    intFormedYear?: number;
+    intMembers?: number;
     strArtist?: string;
     strArtistAlternate?: string;
     strArtistBanner?: string;
@@ -26,6 +26,48 @@ export interface Artist {
   }
 
   export interface Album{
-    
+    idAlbum?: number,
+    idArtist?: number,
+    idLabel?: number,
+    intLoved?: number,
+    intSales?: number,
+    intScore?: number,
+    intScoreVotes?: number,
+    intYearReleased?: number,
+    strAlbum?: string,
+    strAlbum3DCase?: string,
+    strAlbum3DFace?: string,
+    strAlbum3DFlat?: string,
+    strAlbum3DThumb?: string,
+    strAlbumCDart?: string,
+    strAlbumSpine?: string,
+    strAlbumStripped?: string,
+    strAlbumThumb?: string,
+    strAlbumThumbBack?: string,
+    strAlbumThumbHQ?: string,
+    strAllMusicID?: string,
+    strAmazonID?: string,
+    strArtist?: string,
+    strArtistStripped?: string,
+    strBBCReviewID?: string,
+    strDescriptionCN?: string,
+    strDescriptionDE?: string,
+    strDescriptionEN?: string,
+    strDescriptionES?: string,
+    strDescriptionFR?: string,
+    strDescriptionHU?: string,
+    strDescriptionIL?: string,
+    strDescriptionIT?: string,
+    strDescriptionJP?: string,
+    strDescriptionNL?: string,
+    strDescriptionNO?: string,
+    strDescriptionPL?: string,
+    strDescriptionPT?: string,
+    strDescriptionRU?: string,
+    strSpeed?: string,
+    strStyle?: string,
+    strTheme?: string,
+    strWikidataID?: string,
+    strWikipediaID?: string,
   }
   

@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const AlbumPage = () => {
+const AlbumPage = ({navigation, albumData}:any) => {
   return (
     <View style={styles.albumpage}>
       <Text>ALBUM</Text>
