@@ -1,30 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
+import {View,Text,TextInput,NativeSyntheticEvent,TextInputChangeEventData,TouchableOpacity,StyleSheet,Button} from "react-native";
 import { Artist } from "../../types";
-
-//--- STRINGS FOR DIFFERENT API CALLS ---
-const baseURL = "https://theaudiodb.com/api/v1/json/1";
-// const artistName: string = "nirvana";
-const getArtistInfoByArtistName: string = "/search.php?s=";
-const getDiscographyByArtistsName: string = "/discography.php?s=";
-const getArtistInfoByArtistId: string = "/artist.php?i=";
-const getAllAlbumInfoByArtistId: string = "/album.php?i=";
-const getAlbumInfoByAlbumId: string = "/album.php?m=";
-const getAllTrackInfoByAlbumId: string = "/track.php?m=";
-const getTrackInfoByTrackId: string = "/track.php?h=";
-const getAllMusicVideosByArtistId: string = "/mvid.php?i=";
-
-//--- GET ARTIST DATA BY ARTIST NAME ---
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {Navigation} from 'react-native-navigation';
 interface SearchArtistProps {
   setState: any;
   state: string;
@@ -32,18 +12,23 @@ interface SearchArtistProps {
   /*ASK FOR TYPES*/
 }
 
-const SearchArtist = (props: SearchArtistProps) => {
+const SearchArtist = (/*{setState, state, getData}: SearchArtistProps,*/ {navigation, setState, state, getData}:any) => {
   const handleChange = (e: string) => {
-    props.setState(e);
+    setState(e);
   };
   
   const handleSubmit = () => {
-    props.getData(props.state);
+    getData(state);
+    navigation.navigate("Artist");
   };
+  const test = () => {
+    navigation.navigate("Artist");
+  }
 
   return (
     <View style={styles.search}>
       <Text>Look for an artist by entering their name</Text>
+      {/* <Button title="test" onPress={test}>Album</Button> */}
       <TextInput
         onChangeText={handleChange}
         onSubmitEditing={handleSubmit}

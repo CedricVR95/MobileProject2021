@@ -24,4 +24,8 @@ export interface Artist {
     strBiographyES?: string;
     strBiographyFR?: string;
   }
+
+  export interface Album{
+    
+  }
   
