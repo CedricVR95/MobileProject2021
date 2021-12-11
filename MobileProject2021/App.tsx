@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View , Text, Image } from "react-native";
 import axios from "axios";
 import VoorbeeldArtist from "./components/VoorbeeldArtisten/VoorbeeldArtisten";
 
@@ -36,34 +36,54 @@ const getArtistInfoByArtistName: string = "/search.php?s=";
 
 export default function App() {
   
-  const [artistName, setArtistName] = useState<string[]>([]);
-  const [VoorbeeldartistData, setVoorbeeldArtistData] = useState<Artist>({});
+  const [VoorbeeldartistData, setVoorbeeldArtistData] = useState<Artist[]>([]);
   
   //--- AJAX CALLS ---
-  const getVoorbeeldArtistDataByName = async (artistName: any) => {
-    
+  const getVoorbeeldArtistDataByName = async (artistName: string[]) => {
+    console.log(VoorbeeldartistData)
+      console.log(artistName)
+      for(let i = 0; i < artistName.length; i++){
+        console.log(artistName[i])
       const artistDataByName = await axios({
         method: "get",
         url: baseURL + getArtistInfoByArtistName + artistName,
       })
-      for(let i = 0; i < artistName.length; i++) {
-        setVoorbeeldArtistData(artistDataByName.data.artists[i]);
+         setVoorbeeldArtistData(artistDataByName.data.artists)
+      console.log(artistDataByName.data.artists ,i)
+      console.log(artistDataByName.data.artists, i)
       }
-      
-    
+
   };
+  useEffect(() => {
+    setTimeout(() => {
+      let voorbeeldArtist: string[] = ["coldplay", "daft_punk", "nirvana", "imagine_dragons", "The_Weeknd"]
+      
+        
+
+      getVoorbeeldArtistDataByName(["coldplay"])
+      console.log(VoorbeeldartistData)
+  },3000);
+},[])
   return (
     <View style={styles.container}> 
       <StatusBar style="auto" hidden={true} />
-      <View>
-      
-      <VoorbeeldArtist state={artistName} getData={getVoorbeeldArtistDataByName} setState={setArtistName} artistData={VoorbeeldartistData}/>
-        
-      </View>
+        {console.log(VoorbeeldartistData)}
+        {VoorbeeldartistData.map((e: Artist, i: number) =>
+        <View key={i} style={styles.list}>
+          <Text>{e.idArtist}</Text>
+          <Image source={{ uri: e.strArtistBanner }}
+        style={{ height: 100, width: 200 }}
+      ></Image>
+          <Text>{e.strBiographyEN}</Text>
+          <Text>ok</Text>
+          {console.log(e)}
+        </View>
+        )}
     </View>
   );
 }
-
+/**/
+//<VoorbeeldArtist state={artistName} getData={getVoorbeeldArtistDataByName} setState={setArtistName} artistData={VoorbeeldartistData}/>
 const styles = StyleSheet.create({
   container: {
     flex:1,
@@ -74,7 +94,7 @@ const styles = StyleSheet.create({
   list:{
     padding: 20,
     margin: 10,
-    backgroundColor: '#bbb'
+    border: '2px solid black'
   }
 });
 
