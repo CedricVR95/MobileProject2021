@@ -1,16 +1,17 @@
 import * as React from "react";
 import { StatusBar } from "expo-status-bar";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import SearchArtist from "./components/searchArtist/searchArtist";
 import { Artist, Album } from "./types";
 import axios from "axios";
+import ArtistPage from "./components/artistPage/artistPage";
 import Footer from "./components/footer/footer";
-import ArtistPage from "./components/ArtistPage/artistPage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Navigation } from "react-native-navigation";
 import AlbumPage from "./components/albumPage/albumPage";
 import { useState } from "react";
+import TracksPage from "./components/tracksPage/tracksPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +32,8 @@ export default function App() {
   const [artistName, setArtistName] = useState<string>("");
   const [artistId, setArtistId] = useState<string>("");
   const [artistData, setArtistData] = useState<Artist>({});
-  const [albumData, setAlbumData] = useState<Album[]>([]); //type toevoegen
+  const [albumData, setAlbumData] = useState<Album[]>([]);
+  const [trackData, setTrackData] = useState(); //ADD TRACK DATA TYPE
 
   //--- AJAX CALLS ---
   const getArtistDataByName = async (artistName: string) => {
@@ -49,6 +51,8 @@ export default function App() {
       url: baseURL + getAllAlbumInfoByArtistId + id,
     });
     setAlbumData(albumInfoById.data.album);
+    // console.log(albumInfoById.data.album);
+    // console.log("test");
     // setAlbumData(albumInfoById);
   };
 
@@ -58,7 +62,8 @@ export default function App() {
     <NavigationContainer>
       {/* <View style={styles.container}>
         <StatusBar style="auto" hidden={true} />
-        <SearchArtist setState={setArtistName} state={artistName} getData={getArtistDataByName}></SearchArtist> */}
+        <SearchArtist setState={setArtistName} state={artistName} getData={getArtistDataByName}></SearchArtist> 
+  */}
       <Stack.Navigator initialRouteName="Search">
         <Stack.Screen name="Search">
           {(props) => (
@@ -70,6 +75,19 @@ export default function App() {
             />
           )}
         </Stack.Screen>
+        {/* <Stack.Screen
+          name="Home"
+          component={SearchArtist}
+          options={{
+            title: "Test",
+            headerLeft: () => (
+              <Button title="Left" onPress={() => alert("Left")}></Button>
+            ),
+            headerRight: () => (
+              <Button title="Right" onPress={() => alert("Right")}></Button>
+            ),
+          }}
+        /> */}
         {/* <Stack.Screen name="Search" component={SearchArtist}/> */}
         <Stack.Screen name="Artist">
           {(props) => (
@@ -83,6 +101,9 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Album">
           {(props) => <AlbumPage {...props} albumData={albumData} />}
+        </Stack.Screen>
+        <Stack.Screen name="Tracks">
+          {(props) => <TracksPage {...props}/>}
         </Stack.Screen>
       </Stack.Navigator>
       {/* <ArtistPage artist={artistData}></ArtistPage> */}

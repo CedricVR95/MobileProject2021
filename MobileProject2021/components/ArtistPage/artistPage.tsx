@@ -21,7 +21,7 @@ const ArtistPage = ({
 }: any) => {
   const handlePress = async () => {
     try {
-      let data = await getAlbums(artistId);
+      await getAlbums(artistId);
       navigation.navigate("Album");
     } catch (e: any) {
       alert("Album data not found");
