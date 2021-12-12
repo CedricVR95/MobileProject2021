@@ -8,12 +8,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from "react-native";
 import { Album } from "../../types";
+
 
 interface AlbumProps {
   navigation: any;
   albumData: Album[];
+  setName:any;
 }
 
 interface navProp {
@@ -24,81 +27,40 @@ interface navProp {
 const baseURL = "https://theaudiodb.com/api/v1/json/2";
 const getAllTrackInfoByAlbumId: string = "/track.php?m=";
 
-
-const AlbumPage = ({navigation, albumData}:AlbumProps) => {
-  const [trackData, setTrackData] = useState();
-
-  const getTracks = async(albumId:number) => {
-    try{
-    const data = await axios({
-      method: "get",
-      url: baseURL + getAllTrackInfoByAlbumId + albumId.toString()
-    })
-    setTrackData(data.data.track);
-    // return(data.data.track);
-  }catch (e: any) {
-    alert("Track data not found");
-  }}
-  
-
-  const handlePress = async(albumId:number) => {
+const AlbumPage = ({ navigation, albumData, setName }: AlbumProps) => {
+  const getTracks = async (albumId: number) => {
     try {
-      /*const trackData = */await getTracks(albumId);
-      // console.log(trackData);
-      navigation.navigate("Tracks", {trackData: trackData});
+      const data = await axios({
+        method: "get",
+        url: baseURL + getAllTrackInfoByAlbumId + albumId.toString(),
+      });
+      return data.data.track;
     } catch (e: any) {
-      alert("Track data not found");
+      Alert.alert("Track data not found");
     }
   };
 
-  /*
-  <FlatList<Album>
-renderAlbum={
-({album}) => <View style={styles.albumpage}>
-      {albumData.map((album: Album) => {
-        return (
-          <View key={album.idAlbum}>
-            <Text>ALBUM</Text>
-            <Text>{album.strAlbum}</Text>
-            <Text>{album.intYearReleased}</Text>
-            <Image
-              source={{ uri: album.strAlbumThumb }}
-              style={{ height: 200, width: 200 }}
-            />
-            <Image
-              source={{ uri: album.strAlbumThumbBack }}
-              style={{ height: 200, width: 200 }}
-            />
-          </View>
-        );
-      })}
-      <TouchableOpacity onPress={handlePress}>
-        <Text>Tracks</Text>
-      </TouchableOpacity>
-    </View>
-}
-keyExtractor={
-(album : Album) => album.idAlbum
-}
-album={albumData}/>
-*/
+  const handlePress = async(albumId: number) => {
+    try {
+      let trackData = await getTracks(albumId);
+      // console.log(trackData);
+      setName(trackData[0].strAlbum);
+      navigation.navigate(trackData[0].strAlbum + " by " + trackData[0].strArtist, { data: trackData });
+    } catch (e: any) {
+      Alert.alert("Track data not found");
+    }
+  };
 
   return (
-    
     <FlatList<Album>
       renderItem={({ item }) => (
         <View>
-          <Text>ALBUM</Text>
           <Text>{item.strAlbum}</Text>
           <Text>{item.intYearReleased}</Text>
           <Image
             source={{ uri: item.strAlbumThumb }}
             style={{ height: 200, width: 200 }}
           />
-          {/* <Image
-            source={{ uri: item.strAlbumThumbBack }}
-            style={{ height: 200, width: 200 }}
-          /> */}
           <TouchableOpacity onPress={() => handlePress(item.idAlbum!)}>
             <Text>Tracks</Text>
           </TouchableOpacity>
@@ -107,9 +69,6 @@ album={albumData}/>
       keyExtractor={(album: Album) => album.idAlbum!.toString()}
       data={albumData}
     />
-    // <View>
-    //   <Text>TEST</Text>
-    // </View>
   );
 };
 

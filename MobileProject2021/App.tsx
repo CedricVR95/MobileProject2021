@@ -29,11 +29,11 @@ const getAllMusicVideosByArtistId: string = "/mvid.php?i=";
 
 export default function App() {
   //--- STATES ---
-  const [artistName, setArtistName] = useState<string>("");
+  const [artistName, setArtistName] = useState<string>("artist");
   const [artistId, setArtistId] = useState<string>("");
   const [artistData, setArtistData] = useState<Artist>({});
   const [albumData, setAlbumData] = useState<Album[]>([]);
-  const [trackData, setTrackData] = useState(); //ADD TRACK DATA TYPE
+  const [albumName, setAlbumName] = useState<string>("album");
 
   //--- AJAX CALLS ---
   const getArtistDataByName = async (artistName: string) => {
@@ -89,7 +89,7 @@ export default function App() {
           }}
         /> */}
         {/* <Stack.Screen name="Search" component={SearchArtist}/> */}
-        <Stack.Screen name="Artist">
+        <Stack.Screen name={"Info about " + artistName}>
           {(props) => (
             <ArtistPage
               {...props}
@@ -99,10 +99,10 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen name="Album">
-          {(props) => <AlbumPage {...props} albumData={albumData} />}
+        <Stack.Screen name={"Albums by " + artistName}>
+          {(props) => <AlbumPage {...props} albumData={albumData} setName={setAlbumName}/>}
         </Stack.Screen>
-        <Stack.Screen name="Tracks">
+        <Stack.Screen name={albumName + " by " + artistName}>
           {(props) => <TracksPage {...props}/>}
         </Stack.Screen>
       </Stack.Navigator>

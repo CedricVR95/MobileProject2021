@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Button,
+  Alert,
 } from "react-native";
 import { Artist } from "../../types";
 import { NavigationContainer } from "@react-navigation/native";
@@ -23,15 +24,15 @@ interface SearchArtistProps {
 
 const SearchArtist = ({ navigation, setState, state, getData }: any) => {
   const handleChange = (e: string) => {
-    setState(e);
+    setState(e.trim());
   };
 
   const handleSubmit = async () => {
     try {
       await getData(state);
-      navigation.navigate("Artist");
+      navigation.navigate("Info about " + state);
     } catch (e: any) {
-      alert("artist not found");
+      Alert.alert("artist not found");
     }
   };
   const test = () => {};

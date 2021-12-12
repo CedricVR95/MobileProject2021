@@ -6,11 +6,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   Button,
+  Alert,
 } from "react-native";
 import { Artist } from "../../types";
 
 interface ArtistPageProps {
+  navigation: any;
   artist: Artist;
+  artistId:string;
+  getAlbums:any;
 }
 
 const ArtistPage = ({
@@ -18,13 +22,14 @@ const ArtistPage = ({
   artist,
   artistId,
   getAlbums,
-}: any) => {
-  const handlePress = async () => {
+}: ArtistPageProps) => {
+  const handlePress = async() => {
     try {
       await getAlbums(artistId);
-      navigation.navigate("Album");
+      navigation.navigate("Albums by " + artist.strArtist);
+      
     } catch (e: any) {
-      alert("Album data not found");
+      Alert.alert("Album data not found");
     }
   };
 
