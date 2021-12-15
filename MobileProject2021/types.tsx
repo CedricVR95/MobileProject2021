@@ -23,6 +23,32 @@ export interface Artist {
   strBiographyEN?: string;
   strBiographyES?: string;
   strBiographyFR?: string;
+  strBiographyIT?:string;
+  strLabel?:string;
+  strDisbanded?:string;
+  strStyle?:string;
+  strGenre?:string;
+  strMood?:string;
+  strWebsite?:string;
+  strFacebook?:string;
+  strTwitter?:string;
+  strBiographyJP?:string
+  trBiographyRU?:string;
+  strBiographyPT?:string;
+  strBiographySE?:string;
+  strBiographyNL?:string;
+  strBiographyHU?:string;
+  strBiographyNO?:string;
+  strBiographyIL?:string;
+  strBiographyPL?:string;
+  strGender?:string;
+  strCountry?:string;
+  strCountryCode?:string;
+  strMusicBrainzID?:string;
+  strISNIcode?:number;
+  strLastFMChart?:string;
+  strLocked?:string;
+  strBiographyRU?:string
 }
 
 export interface Album {

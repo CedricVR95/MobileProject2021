@@ -104,7 +104,7 @@ export default function App() {
           {(props) => <FavouritesPage {...props} />}
         </Stack.Screen>
         <Stack.Screen name="Featured">
-          {(props) => <FeaturedPage {...props} />}
+          {(props) => <FeaturedPage {...props} getAlbums={getAlbumInfoByArtistId} setName={setArtistName}/>}
         </Stack.Screen>
       </Stack.Navigator>
       <Footer></Footer>
