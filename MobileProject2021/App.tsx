@@ -43,16 +43,17 @@ export default function App() {
   const getVoorbeeldArtistDataByName = async () => {
     setUpdating(true);
     let voorbeeldArtist: string[] = ["coldplay", "daft_punk", "nirvana", "imagine_dragons", "The_Weeknd"]
+      for (let i = 0; i < voorbeeldArtist.length; i++){
       const artistDataByName = await axios({
         method: "get",
-        url: baseURL + getArtistInfoByArtistName + voorbeeldArtist,
+        url: baseURL + getArtistInfoByArtistName + voorbeeldArtist[i],
       })
       
       voorbeeldArtisten.push(artistDataByName.data.artists[0]) 
       console.log(voorbeeldArtisten)
        
       setVoorbeeldArtistData(voorbeeldArtisten)
-      
+      }
       setUpdating(false);
   };
   useEffect(() => {
