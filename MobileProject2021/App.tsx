@@ -4,7 +4,7 @@ import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import SearchArtist from "./components/searchArtist/searchArtist";
 import { Artist, Album } from "./types";
 import axios from "axios";
-import ArtistPage from "./components/artistPage/artistPage";
+import ArtistPage from "./components/ArtistPage/artistPage";
 import Footer from "./components/footer/footer";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,6 +12,9 @@ import { Navigation } from "react-native-navigation";
 import AlbumPage from "./components/albumPage/albumPage";
 import { useState } from "react";
 import TracksPage from "./components/tracksPage/tracksPage";
+import FavouritesPage from "./components/FavouritesPage/favourites";
+import FeaturedPage from "./components/featuredPage/featuredPage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,7 +67,7 @@ export default function App() {
         <StatusBar style="auto" hidden={true} />
         <SearchArtist setState={setArtistName} state={artistName} getData={getArtistDataByName}></SearchArtist> 
   */}
-      <Stack.Navigator initialRouteName="Search">
+      <Stack.Navigator initialRouteName="Featured">
         <Stack.Screen name="Search">
           {(props) => (
             <SearchArtist
@@ -75,20 +78,6 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-        {/* <Stack.Screen
-          name="Home"
-          component={SearchArtist}
-          options={{
-            title: "Test",
-            headerLeft: () => (
-              <Button title="Left" onPress={() => alert("Left")}></Button>
-            ),
-            headerRight: () => (
-              <Button title="Right" onPress={() => alert("Right")}></Button>
-            ),
-          }}
-        /> */}
-        {/* <Stack.Screen name="Search" component={SearchArtist}/> */}
         <Stack.Screen name={"Info about " + artistName}>
           {(props) => (
             <ArtistPage
@@ -100,15 +89,25 @@ export default function App() {
           )}
         </Stack.Screen>
         <Stack.Screen name={"Albums by " + artistName}>
-          {(props) => <AlbumPage {...props} albumData={albumData} setName={setAlbumName}/>}
+          {(props) => (
+            <AlbumPage
+              {...props}
+              albumData={albumData}
+              setName={setAlbumName}
+            />
+          )}
         </Stack.Screen>
         <Stack.Screen name={albumName + " by " + artistName}>
-          {(props) => <TracksPage {...props}/>}
+          {(props) => <TracksPage {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="Favourites">
+          {(props) => <FavouritesPage {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="Featured">
+          {(props) => <FeaturedPage {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
-      {/* <ArtistPage artist={artistData}></ArtistPage> */}
-      {/* <Footer></Footer> */}
-      {/* </View> */}
+      <Footer></Footer>
     </NavigationContainer>
   );
 }
