@@ -12,11 +12,12 @@ import { Artist } from "../../types";
 
 interface FeaturedProps {
   navigation: any;
-  getAlbums: any;
+  setArtist: any;
   setName: any;
+  setId:any;
 }
 
-const FeaturedPage = ({ navigation, getAlbums, setName }: FeaturedProps) => {
+const FeaturedPage = ({ navigation, setName, setArtist, setId }: FeaturedProps) => {
   const [pressedFeatured, setPressedFeatured] = useState<Artist>({
     idArtist: undefined,
   });
@@ -395,12 +396,9 @@ const FeaturedPage = ({ navigation, getAlbums, setName }: FeaturedProps) => {
 
   const handlePress = async (artist: Artist) => {
     await setName(artist.strArtist?.trim());
-    try {
-      await getAlbums(artist.idArtist);
-      navigation.navigate("Albums by " + artist.strArtist);
-    } catch (e: any) {
-      Alert.alert("Album data not found");
-    }
+    await setArtist(artist);
+    await setId(artist.idArtist);
+    navigation.navigate("Info about " + artist.strArtist);
   };
 
   useEffect(() => {
@@ -416,7 +414,7 @@ const FeaturedPage = ({ navigation, getAlbums, setName }: FeaturedProps) => {
           <View key={artist.idArtist}>
             <Text>{artist.strArtist}</Text>
             <TouchableOpacity onPress={() => setPressedFeatured(artist)}>
-              <Text>Albums</Text>
+              <Text>Info</Text>
             </TouchableOpacity>
           </View>
         );
@@ -424,101 +422,5 @@ const FeaturedPage = ({ navigation, getAlbums, setName }: FeaturedProps) => {
     </ScrollView>
   );
 };
-
-// export default function App() {
-
-//   const [VoorbeeldartistData, setVoorbeeldArtistData] = useState<Artist[]>([]);
-//   const voorbeeldArtisten : Artist[] = [];
-//   const [updating, setUpdating] = useState(true);
-//   //--- AJAX CALLS ---
-//   const getVoorbeeldArtistDataByName = async () => {
-//     setUpdating(true);
-
-//       for (let i = 0; i < voorbeeldArtist.length; i++){
-//       const artistDataByName = await axios({
-//         method: "get",
-//         url: baseURL + getArtistInfoByArtistName + voorbeeldArtist[i],
-//       })
-
-//       voorbeeldArtisten.push(artistDataByName.data.artists[0])
-//       console.log(voorbeeldArtisten)
-
-//       setVoorbeeldArtistData(voorbeeldArtisten)
-//       }
-//       setUpdating(false);
-//   };
-//   useEffect(() => {
-//     setTimeout(() => {
-
-//       getVoorbeeldArtistDataByName()
-//   },1000);
-// },[])
-
-//   return (
-//     <View style={styles.container}>
-//       <StatusBar style="auto" hidden={true} />
-//       {updating ? <View><Text>Loading data</Text></View> :
-//          voorbeeldArtisten.map((e: Artist) =>{
-
-//         <View key={e.idArtist} style={styles.list}>
-//           <Text>{e.idArtist}</Text>
-//           <Image source={{ uri: e.strArtistBanner }}
-//         style={{ height: 100, width: 200 }}></Image>
-//           <Text>{e.strBiographyEN}</Text>
-//           <Text>ok</Text>
-//           {console.log(e)}
-//         </View>
-// })}
-//     </View>
-//     <View>
-//       {voorbeeldArtisten.map((artist:any) => {
-//         return(
-//           <View>
-//             <Text>{artist.idArtist}</Text>
-// //           <Image source={{ uri: artist.strArtistBanner }}/>
-//           </View>
-//         )
-//       })}
-//     </View>
-//   );
-// }
-// //<Button onPress={}><p>{e.strArtist}</p></Button>
-// /**/
-// const styles = StyleSheet.create({
-//     container: {
-//       flex:1,
-//       backgroundColor: "lightgrey",
-//       alignItems: "center",
-//       justifyContent: "space-around",
-//     },
-//     list:{
-//       padding: 20,
-//       margin: 10,
-//       border: '2px solid black'
-//     }
-//   });
-
-/*
-  const [Voorbeeldartist, setVoorbeeldArtist] = useState<DataArtist[]>([]);
-    const [loading, setLoading] = useState(true);
-  
-    const baseURL = "https://theaudiodb.com/api/v1/json/2";
-    // const artistName: string = "nirvana";
-    const getArtistInfoByArtistName: string = "/search.php?s=";
-    //--- AJAX CALLS ---
-    let voorbeeldArtist: string[] = ["coldplay", "daft_punk", "nirvana", "imagine_dragons", "The_Weeknd"]
-      const loadVoorbeeldArtistData = async() => {
-        setLoading(true);
-        const artistDataByName = await axios({
-          method: "get",
-          url: baseURL + getArtistInfoByArtistName + voorbeeldArtist,
-        });
-        
-        setVoorbeeldArtist(artistDataByName.data.artists[0])
-        setLoading(false);
-      }
-        useEffect(() => {
-          loadVoorbeeldArtistData();
-          },[]);*/
 
 export default FeaturedPage;

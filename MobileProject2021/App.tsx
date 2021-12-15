@@ -54,9 +54,6 @@ export default function App() {
       url: baseURL + getAllAlbumInfoByArtistId + id,
     });
     setAlbumData(albumInfoById.data.album);
-    // console.log(albumInfoById.data.album);
-    // console.log("test");
-    // setAlbumData(albumInfoById);
   };
 
   //============================================================================================================================//
@@ -104,7 +101,7 @@ export default function App() {
           {(props) => <FavouritesPage {...props} />}
         </Stack.Screen>
         <Stack.Screen name="Featured">
-          {(props) => <FeaturedPage {...props} getAlbums={getAlbumInfoByArtistId} setName={setArtistName}/>}
+          {(props) => <FeaturedPage {...props} setName={setArtistName} setArtist={setArtistData} setId={setArtistId}/>}
         </Stack.Screen>
       </Stack.Navigator>
       <Footer></Footer>
