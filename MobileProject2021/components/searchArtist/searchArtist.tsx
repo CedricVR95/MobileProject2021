@@ -14,7 +14,6 @@ import {
 import { Artist } from "../../types";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Navigation } from "react-native-navigation";
 interface SearchArtistProps {
   setState: any;
   state: string;

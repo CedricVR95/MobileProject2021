@@ -8,7 +8,6 @@ import ArtistPage from "./components/ArtistPage/artistPage";
 import Footer from "./components/footer/footer";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Navigation } from "react-native-navigation";
 import AlbumPage from "./components/albumPage/albumPage";
 import { useState } from "react";
 import TracksPage from "./components/tracksPage/tracksPage";
