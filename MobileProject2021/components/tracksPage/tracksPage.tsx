@@ -1,84 +1,100 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import * as React from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
-  TouchableOpacity,
   FlatList,
-  Button,
-  Linking,
-  Alert,
+  SectionList,
 } from "react-native";
-import { Album } from "../../types";
 import { Track } from "../../types";
-
-interface TrackProps {
-  //   navigation: any;
-  TrackData: any; //ADD TRACK DATA TYPE
-}
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import YoutubeButton from '../youtubeButton/youtubeButton';
+import { MutableRefObject } from "react";
 
 interface TracksData {
   data: Track[];
 }
 
-interface ButtonProps {
-  url: string;
-  trackName: string;
+interface Props {
+  listRef: MutableRefObject<SectionList<any> | undefined>;
 }
 
-const TracksPage = ({ route, navigation }: any) => {
+const TracksPage = ({ route }: any) => {
   const { data }: TracksData = route.params;
 
-  const YoutubeButton = ({ url, trackName }: ButtonProps) => {
-    const handlePress = async () => {
-      try{
-        const supported = await Linking.canOpenURL(url);
-        if (supported) {
-          await Linking.openURL(url);
-         }
-      }catch (e:any){
-        Alert.alert("Sorry, this link is unavailable right now.")
-      }
-      
-    };
-    if (url == null) {
-      return null;
-    } else {
-      return <Button title={trackName} onPress={handlePress} />;
-    }
-  };
-
   return (
-    <FlatList<Track>
-      renderItem={({ item }) => (
-        <View>
-          <Text>{item.strTrack}</Text>
-          <Text>{item.strArtist}</Text>
-          <Text>{item.strAlbum}</Text>
-          <YoutubeButton url={item.strMusicVid!} trackName="Play on Youtube" />
-          <Text></Text>
+    <SafeAreaProvider style={styles.trackspage}>
+      <FlatList<Track>
+      
+        renderItem={({ item } /*strTrackThumb*/) => (
+          <View style={styles.track}>
+            <View style={styles.infoContainer}>
+              <View style={styles.info}>
+                <Text style={styles.infoString}>Title: </Text>
+                <Text style={styles.infoString}>{item.strTrack}</Text>
+              </View>
 
-          {/* <Image
-              source={{ uri: item.strTrackThumb }}
-              style={{ height: 200, width: 200 }}
-            /> */}
+              <View style={styles.info}>
+                <Text style={styles.infoString}>Artist: </Text>
+                <Text style={styles.infoString}>{item.strArtist}</Text>
+              </View>
 
-          {/* <TouchableOpacity onPress={() => handlePress()}>
-              <Text>Tracks</Text>
-            </TouchableOpacity> */}
-        </View>
-      )}
-      keyExtractor={(track: Track) => track.idTrack!.toString()}
-      data={data}
-    />
+              <View style={styles.info}>
+                <Text style={styles.infoString}>Album: </Text>
+                <Text style={styles.infoString}>{item.strAlbum}</Text>
+              </View>
+
+              <View style={styles.info}>
+                <Text style={styles.infoString}>Plays: </Text>
+                <Text style={styles.infoString}>
+                  {item.intTotalPlays ? item.intTotalPlays + "/ 10" : "unavailable"}
+                </Text>
+              </View>
+
+              <View style={styles.info}>
+                <Text style={styles.infoString}>Score: </Text>
+                <Text style={styles.infoString}>
+                  {item.intScore ? item.intScoreVotes + "/ 10" : "unavailable"}
+                </Text>
+              </View>
+            </View>
+
+            <YoutubeButton
+              url={item.strMusicVid ? item.strMusicVid : undefined!}
+              trackName={item.strTrack!}
+            />
+          </View>
+        )}
+        keyExtractor={(track: Track) => track.idTrack!.toString()}
+        data={data}
+      />
+    </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
+  infoContainer: {
+    alignItems: "stretch",
+  },
+  infoString: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  track: {
+    alignSelf: "stretch",
+    borderBottomWidth: 1,
+    borderColor: "white",
+    padding: 10,
+  },
   trackspage: {
-    flex: 30,
+    backgroundColor: "black",
+  },
+  info: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
   },
 });
 

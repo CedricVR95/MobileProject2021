@@ -6,7 +6,11 @@ import { Artist, Album } from "./types";
 import axios from "axios";
 import ArtistPage from "./components/ArtistPage/artistPage";
 import Footer from "./components/footer/footer";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  StackNavigationState,
+  useNavigation,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Navigation } from "react-native-navigation";
 import AlbumPage from "./components/albumPage/albumPage";
@@ -14,9 +18,12 @@ import { useState } from "react";
 import TracksPage from "./components/tracksPage/tracksPage";
 import FavouritesPage from "./components/FavouritesPage/favourites";
 import FeaturedPage from "./components/featuredPage/featuredPage";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
+
+// options={{title: 'Search', headerLeft: () => (<Button title="Left" onPress={() => navigation.navigate.goBack()}></Button>)}}
 
 //--- STRINGS FOR DIFFERENT API CALLS ---
 const baseURL = "https://theaudiodb.com/api/v1/json/2";
@@ -59,53 +66,71 @@ export default function App() {
   //============================================================================================================================//
 
   return (
-    <NavigationContainer>
-      {/* <View style={styles.container}>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        {/* <View style={styles.container}>
         <StatusBar style="auto" hidden={true} />
         <SearchArtist setState={setArtistName} state={artistName} getData={getArtistDataByName}></SearchArtist> 
   */}
-      <Stack.Navigator initialRouteName="Featured">
-        <Stack.Screen name="Search">
-          {(props) => (
-            <SearchArtist
-              {...props}
-              setState={setArtistName}
-              state={artistName}
-              getData={getArtistDataByName}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name={"Info about " + artistName}>
-          {(props) => (
-            <ArtistPage
-              {...props}
-              artist={artistData}
-              artistId={artistId}
-              getAlbums={getAlbumInfoByArtistId}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name={"Albums by " + artistName}>
-          {(props) => (
-            <AlbumPage
-              {...props}
-              albumData={albumData}
-              setName={setAlbumName}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name={albumName + " by " + artistName}>
-          {(props) => <TracksPage {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="Favourites">
-          {(props) => <FavouritesPage {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="Featured">
-          {(props) => <FeaturedPage {...props} setName={setArtistName} setArtist={setArtistData} setId={setArtistId}/>}
-        </Stack.Screen>
-      </Stack.Navigator>
-      <Footer></Footer>
-    </NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Search"
+          screenOptions={{
+            headerStyle: { backgroundColor: "black" },
+            headerTintColor: "white",
+            headerTitleStyle: { fontSize: 25 },
+            headerTitleAlign: 'center',
+            
+          }}
+        >
+          <Stack.Screen name="Search">
+            {(props) => (
+              <SearchArtist
+                {...props}
+                setState={setArtistName}
+                state={artistName}
+                getData={getArtistDataByName}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name={"Info about " + artistName}>
+            {(props) => (
+              <ArtistPage
+                {...props}
+                artist={artistData}
+                artistId={artistId}
+                getAlbums={getAlbumInfoByArtistId}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name={"Albums by " + artistName}>
+            {(props) => (
+              <AlbumPage
+                {...props}
+                albumData={albumData}
+                setName={setAlbumName}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name={albumName}>
+            {(props) => <TracksPage {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Favourites">
+            {(props) => <FavouritesPage {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Featured">
+            {(props) => (
+              <FeaturedPage
+                {...props}
+                setName={setArtistName}
+                setArtist={setArtistData}
+                setId={setArtistId}
+              />
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
+        <Footer></Footer>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 

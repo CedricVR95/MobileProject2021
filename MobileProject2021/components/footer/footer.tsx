@@ -17,27 +17,34 @@ const Footer = () => {
 
   return (
     <View style={styles.footer}>
-      <TouchableOpacity style={styles.favorites} onPress={handleFeaturedPress}><Text>Featured</Text></TouchableOpacity>
-      <TouchableOpacity style={styles.favorites} onPress={handleFavouritesPress}><Text>Favourites</Text></TouchableOpacity>
-      <TouchableOpacity style={styles.search} onPress={handleSearchPress}><Text>Search</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.favorites} onPress={handleFeaturedPress}><Text style={styles.bottomText}>Featured</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.favorites} onPress={handleFavouritesPress}><Text style={styles.bottomText}>Favourites</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.search} onPress={handleSearchPress}><Text style={styles.bottomText}>Search</Text></TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
     footer:{
-        flex: 1,
+        flex: 0,
         flexDirection: "row",
-        alignSelf: "stretch",
-        alignContent: "flex-end",
+        alignItems: 'center',
         justifyContent:"space-between",
-        borderWidth:1
+        backgroundColor:'black',
+        borderTopWidth: 1,
+        borderTopColor: 'white',
     },
     favorites:{
-        padding:10
+        // padding:10
     },
     search:{
-        padding:10
+        // padding:10
+    },
+    bottomText:{
+      fontWeight: 'bold',
+      fontSize: 15,
+      padding: 10,
+      color: 'white',
     }
   });
   

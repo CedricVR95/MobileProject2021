@@ -35,30 +35,75 @@ const SearchArtist = ({ navigation, setState, state, getData }: any) => {
       Alert.alert("artist not found");
     }
   };
-  const test = () => {};
 
   return (
-    <View style={styles.search}>
-      <Text>Look for an artist by entering their name</Text>
-      {/* <Button title="test" onPress={test}>Album</Button> */}
-      <TextInput
-        onChangeText={handleChange}
-        onSubmitEditing={handleSubmit}
-        style={{ borderWidth: 1 }}
-      ></TextInput>
-      <TouchableOpacity onPress={handleSubmit}>
-        <Text style={{ textAlign: "center", borderWidth: 1, marginTop: 10 }}>
-          Search
+    <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome to the Music Database!</Text>
+      <View style={styles.search}>
+        <Text style={styles.cta}>
+          Look for an artist by entering their name
         </Text>
-      </TouchableOpacity>
+        <TextInput
+          onChangeText={handleChange}
+          onSubmitEditing={handleSubmit}
+          style={styles.input}
+        ></TextInput>
+        <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+          <Text style={styles.buttonText}>Search</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "stretch",
+    backgroundColor: "black",
+    justifyContent: "space-between",
+  },
+  welcome: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 40,
+    flex: 1,
+    marginTop: 20,
+  },
+  cta: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 30,
+    color: "white",
+    marginBottom:10
+    // flex: 1,
+  },
+  button: {
+    alignSelf: "center",
+  },
+  buttonText: {
+    fontWeight: "bold",
+    fontSize: 30,
+    padding: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    textAlign: "center",
+    color: "white",
+    marginBottom:10,
+  },
+  input: {
+    borderWidth: 1,
+    color: "black",
+    backgroundColor: "white",
+    textAlign: "center",
+    borderRadius: 50,
+    height: 50,
+    fontSize: 30,
+  },
   search: {
-    flex: 10,
-    marginTop: 30,
+    flex: 1,
+    justifyContent: "space-evenly",
   },
 });
 
