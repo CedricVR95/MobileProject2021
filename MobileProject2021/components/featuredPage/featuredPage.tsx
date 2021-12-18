@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Artist } from "../../types";
 import {featuredArtists} from "../featuredArtists/featured";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface FeaturedProps {
   navigation: any;
@@ -19,10 +20,22 @@ interface FeaturedProps {
 }
 
 const FeaturedPage = ({ navigation, setName, setArtist, setId }: FeaturedProps) => {
-  const [pressedFeatured, setPressedFeatured] = useState<Artist>({
-    idArtist: undefined,
-  });
+  const [pressedFeatured, setPressedFeatured] = useState<Artist>({idArtist: undefined,});
+  const [favourite, setFavourite] = useState<boolean>(false);
 
+
+  const addFavouriteItem = async (value: Artist) => {
+      const data = await AsyncStorage.getItem('FavoriteArtist')
+      let storageData = data? JSON.parse(data) as Artist[]: [] as Artist[];
+      if(!storageData.some(x => x.idArtist === value.idArtist)){
+        storageData.push(value);
+        const jsonValue = JSON.stringify(storageData);
+        await AsyncStorage.setItem('FavoriteArtist', jsonValue);}
+      }
+      
+  const deleteFavouriteItem = async () => {
+    await AsyncStorage.removeItem('FavoriteArtist');
+      }
   const handlePress = async (artist: Artist) => {
     await setName(artist.strArtist?.trim());
     await setArtist(artist);
@@ -45,6 +58,13 @@ const FeaturedPage = ({ navigation, setName, setArtist, setId }: FeaturedProps) 
             <TouchableOpacity onPress={() => setPressedFeatured(artist)}>
               <Text>Info</Text>
             </TouchableOpacity>
+            {favourite !== true?
+            <TouchableOpacity onPress={() => {addFavouriteItem(artist)}}>
+              <Text>favourite</Text>
+            </TouchableOpacity>:
+            <TouchableOpacity onPress={() => {deleteFavouriteItem();setFavourite(false);}}>
+              <Text>favourite</Text>
+            </TouchableOpacity>}
           </View>
         );
       })}
