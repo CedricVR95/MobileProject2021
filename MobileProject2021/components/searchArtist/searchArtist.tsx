@@ -38,7 +38,6 @@ const SearchArtist = ({ navigation, setState, state, getData }: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to the Music Database!</Text>
       <View style={styles.search}>
         <Text style={styles.cta}>
           Look for an artist by entering their name
@@ -52,6 +51,8 @@ const SearchArtist = ({ navigation, setState, state, getData }: any) => {
           <Text style={styles.buttonText}>Search</Text>
         </TouchableOpacity>
       </View>
+
+      <Text style={styles.welcome}>Welcome to the Music Database!</Text>
     </View>
   );
 };
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: 40,
+    fontSize: 50,
     flex: 1,
     marginTop: 20,
   },
@@ -76,11 +77,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
     color: "white",
-    marginBottom:10
+    marginBottom: 10,
     // flex: 1,
   },
   button: {
     alignSelf: "center",
+    borderColor:'white',
+    borderWidth:2,
+    borderRadius:20
   },
   buttonText: {
     fontWeight: "bold",
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     textAlign: "center",
     color: "white",
-    marginBottom:10,
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
