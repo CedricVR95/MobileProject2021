@@ -13,6 +13,7 @@ import FavouritesPage from "./components/FavouritesPage/favourites";
 import FeaturedPage from "./components/featuredPage/featuredPage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserPage from "./components/userDataPage/user";
+import { StatusBar } from "expo-status-bar";
 
 //--- STACK NAVIGATOR ---
 const Stack = createNativeStackNavigator();
@@ -52,6 +53,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
+      <StatusBar hidden/>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Search"
