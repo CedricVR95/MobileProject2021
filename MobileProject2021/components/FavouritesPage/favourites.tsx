@@ -26,12 +26,10 @@ const FavouritesPage = ({ navigation, setName, setArtist, setId }: FavouritedPro
     navigation.navigate("Info about " + artist.strArtist);
   };
   useEffect(() => {
-    setTimeout(() => {
       loadFavouriteItem()
     if (pressedFeatured.idArtist !== undefined) {
       handlePress(pressedFeatured);
-    }
-  }, 1000);
+    }  
   }, [pressedFeatured]);
   return (
     <View>
