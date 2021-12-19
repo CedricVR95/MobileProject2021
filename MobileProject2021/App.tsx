@@ -13,6 +13,7 @@ import FavouritesPage from "./components/FavouritesPage/favourites";
 import FeaturedPage from "./components/featuredPage/featuredPage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import UserPage from "./components/userDataPage/user";
 
 //--- STACK NAVIGATOR ---
 const Stack = createNativeStackNavigator();
@@ -107,6 +108,9 @@ export default function App() {
                 setId={setArtistId}
               />
             )}
+          </Stack.Screen>
+          <Stack.Screen name = 'User'>
+            {(props) => <UserPage {...props}/>}
           </Stack.Screen>
         </Stack.Navigator>
         <Footer></Footer>

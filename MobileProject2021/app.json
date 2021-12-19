@@ -10,6 +10,14 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to set a profile picture."
+        }
+      ]
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
