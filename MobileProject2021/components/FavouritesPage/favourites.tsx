@@ -45,13 +45,13 @@ const FavouritesPage = ({ navigation, setName, setArtist, setId }: FavouritedPro
       <Text>Favourites</Text>
       {data !== null?
       
-      dataArray.map(artist => {
+      dataArray.map(artist => (
       <View key={artist.idArtist}>
       <Text>{artist.strArtist}</Text>
       <TouchableOpacity onPress={() => setPressedFeatured(artist)}>
               <Text>Info</Text>
       </TouchableOpacity>
-      </View>})
+      </View>))
       : <Text>You have not favourited an artist.</Text>
       }
     </View>
