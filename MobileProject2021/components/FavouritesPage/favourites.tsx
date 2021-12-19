@@ -29,11 +29,6 @@ const FavouritesPage = ({ navigation, setName, setArtist, setId }: FavouritedPro
     await setId(artist.idArtist);
     navigation.navigate("Info about " + artist.strArtist);
   };
-  let dataArray: Artist[] = [];
-  for(let i = 0; i < data.length; i++){
-    dataArray.push(data[i])
-  }
-  console.log(dataArray);
 
   useEffect(() => {
     if (pressedFeatured.idArtist !== undefined) {
@@ -45,7 +40,7 @@ const FavouritesPage = ({ navigation, setName, setArtist, setId }: FavouritedPro
       <Text>Favourites</Text>
       {data !== null?
       
-      dataArray.map(artist => (
+      data.map(artist => (
       <View key={artist.idArtist}>
       <Text>{artist.strArtist}</Text>
       <TouchableOpacity onPress={() => setPressedFeatured(artist)}>
