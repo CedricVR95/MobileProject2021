@@ -44,6 +44,7 @@ const FeaturedPage = ({ navigation, setName, setArtist, setId }: FeaturedProps) 
 
   useEffect(() => {
     setTimeout(() => {
+    
     loadFavouriteItem()
       }, 1000);
   }, [data]);

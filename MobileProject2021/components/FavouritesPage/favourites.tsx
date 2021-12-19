@@ -18,22 +18,20 @@ const FavouritesPage = ({ navigation, setName, setArtist, setId }: FavouritedPro
       const jsonValue = await AsyncStorage.getItem("FavoriteArtist");
       setData(jsonValue != null ? (JSON.parse(jsonValue)) : null);
   };
-  useEffect(() => {
-    setTimeout(() => {
-    loadFavouriteItem()
-      }, 1000);
-  }, [data]);
+  
   const handlePress = async (artist: Artist) => {
     await setName(artist.strArtist?.trim());
     await setArtist(artist);
     await setId(artist.idArtist);
     navigation.navigate("Info about " + artist.strArtist);
   };
-
   useEffect(() => {
+    setTimeout(() => {
+      loadFavouriteItem()
     if (pressedFeatured.idArtist !== undefined) {
       handlePress(pressedFeatured);
     }
+  }, 1000);
   }, [pressedFeatured]);
   return (
     <View>
