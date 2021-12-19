@@ -11,7 +11,6 @@ import { useState } from "react";
 import TracksPage from "./components/tracksPage/tracksPage";
 import FavouritesPage from "./components/FavouritesPage/favourites";
 import FeaturedPage from "./components/featuredPage/featuredPage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserPage from "./components/userDataPage/user";
 
@@ -98,7 +97,7 @@ export default function App() {
             {(props) => <TracksPage {...props} />}
           </Stack.Screen>
           <Stack.Screen name="Favourites">
-            {(props) => <FavouritesPage {...props} />}
+            {(props) => <FavouritesPage {...props} setName={setArtistName} setArtist={setArtistData} setId={setArtistId}/>}
           </Stack.Screen>
           <Stack.Screen name="Featured">
             {(props) => (
