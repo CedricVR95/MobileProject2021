@@ -22,7 +22,7 @@ interface FeaturedProps {
 const FeaturedPage = ({ navigation, setName, setArtist, setId }: FeaturedProps) => {
   const [pressedFeatured, setPressedFeatured] = useState<Artist>({idArtist: undefined,});
   const [favourite, setFavourite] = useState<boolean>(false);
-
+  const [data, setData] = useState<Artist[]>([]);
 
   const addFavouriteItem = async (value: Artist) => {
       const data = await AsyncStorage.getItem('FavoriteArtist')
@@ -33,9 +33,21 @@ const FeaturedPage = ({ navigation, setName, setArtist, setId }: FeaturedProps) 
         await AsyncStorage.setItem('FavoriteArtist', jsonValue);}
       }
       
-  const deleteFavouriteItem = async () => {
-    await AsyncStorage.removeItem('FavoriteArtist');
-      }
+
+      
+  
+  const loadFavouriteItem = async () => {
+      const jsonValue = await AsyncStorage.getItem("FavoriteArtist");
+      setData(jsonValue != null ? (JSON.parse(jsonValue)) : null);
+  };
+          
+
+  useEffect(() => {
+    setTimeout(() => {
+    loadFavouriteItem()
+      }, 1000);
+  }, [data]);
+      
   const handlePress = async (artist: Artist) => {
     await setName(artist.strArtist?.trim());
     await setArtist(artist);
@@ -58,11 +70,11 @@ const FeaturedPage = ({ navigation, setName, setArtist, setId }: FeaturedProps) 
             <TouchableOpacity onPress={() => setPressedFeatured(artist)}>
               <Text>Info</Text>
             </TouchableOpacity>
-            {favourite !== true?
-            <TouchableOpacity onPress={() => {addFavouriteItem(artist)}}>
+            {favourite !== true ?
+            <TouchableOpacity onPress={() => {addFavouriteItem(artist);}}>
               <Text>favourite</Text>
             </TouchableOpacity>:
-            <TouchableOpacity onPress={() => {deleteFavouriteItem();setFavourite(false);}}>
+            <TouchableOpacity onPress={() => {setFavourite(false);}}>
               <Text>favourite</Text>
             </TouchableOpacity>}
           </View>
