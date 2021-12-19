@@ -1,29 +1,24 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Artist } from "../../types";
 import { featuredArtists } from "../featuredArtists/featured";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 interface FeaturedProps {
   navigation: any;
   setArtist: any;
-  setName: any;
   setId: any;
 }
 
 const FeaturedPage = ({
   navigation,
-  setName,
   setArtist,
-  setId,
+  setId
 }: FeaturedProps) => {
   const [pressedFeatured, setPressedFeatured] = useState<Artist>({
     idArtist: undefined,
   });
 
   const handlePress = async (artist: Artist) => {
-    await setName(artist.strArtist?.trim());
     await setArtist(artist);
     await setId(artist.idArtist);
     navigation.navigate("Info about " + artist.strArtist);

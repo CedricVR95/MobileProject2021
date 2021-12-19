@@ -1,18 +1,11 @@
 import * as React from "react";
-import { StatusBar } from "expo-status-bar";
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import SearchArtist from "./components/searchArtist/searchArtist";
 import { Artist, Album } from "./types";
 import axios from "axios";
 import ArtistPage from "./components/ArtistPage/artistPage";
 import Footer from "./components/footer/footer";
-import {
-  NavigationContainer,
-  StackNavigationState,
-  useNavigation,
-} from "@react-navigation/native";
+import {NavigationContainer,} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Navigation } from "react-native-navigation";
 import AlbumPage from "./components/albumPage/albumPage";
 import { useState } from "react";
 import TracksPage from "./components/tracksPage/tracksPage";
@@ -21,25 +14,16 @@ import FeaturedPage from "./components/featuredPage/featuredPage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+//--- STACK NAVIGATOR ---
 const Stack = createNativeStackNavigator();
-
-// options={{title: 'Search', headerLeft: () => (<Button title="Left" onPress={() => navigation.navigate.goBack()}></Button>)}}
 
 //--- STRINGS FOR DIFFERENT API CALLS ---
 const baseURL = "https://theaudiodb.com/api/v1/json/2";
-// const artistName: string = "nirvana";
 const getArtistInfoByArtistName: string = "/search.php?s=";
-// const getDiscographyByArtistsName: string = "/discography.php?s=";
-// const getArtistInfoByArtistId: string = "/artist.php?i=";
 const getAllAlbumInfoByArtistId: string = "/album.php?i=";
-const getAlbumInfoByAlbumId: string = "/album.php?m=";
-const getAllTrackInfoByAlbumId: string = "/track.php?m=";
-const getTrackInfoByTrackId: string = "/track.php?h=";
-const getAllMusicVideosByArtistId: string = "/mvid.php?i=";
 
 export default function App() {
-  //--- STATES ---
-  const [artistName, setArtistName] = useState<string>("artist");
+  const[artistName, setArtistName] = useState<string>('');
   const [artistId, setArtistId] = useState<string>("");
   const [artistData, setArtistData] = useState<Artist>({});
   const [albumData, setAlbumData] = useState<Album[]>([]);
@@ -51,8 +35,9 @@ export default function App() {
       method: "get",
       url: baseURL + getArtistInfoByArtistName + artistName,
     });
-    setArtistData(artistDataByName.data.artists[0]);
-    setArtistId(artistDataByName.data.artists[0].idArtist.toString());
+    await setArtistId(artistDataByName.data.artists[0].idArtist!.toString());
+    await setArtistData(artistDataByName.data.artists[0]);
+    return artistDataByName.data.artists[0];;
   };
 
   const getAlbumInfoByArtistId = async (id: string) => {
@@ -68,31 +53,28 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        {/* <View style={styles.container}>
-        <StatusBar style="auto" hidden={true} />
-        <SearchArtist setState={setArtistName} state={artistName} getData={getArtistDataByName}></SearchArtist> 
-  */}
         <Stack.Navigator
           initialRouteName="Search"
           screenOptions={{
             headerStyle: { backgroundColor: "black" },
             headerTintColor: "white",
             headerTitleStyle: { fontSize: 25 },
-            headerTitleAlign: 'center',
-            
+            headerTitleAlign: 'center',            
           }}
         >
           <Stack.Screen name="Search">
             {(props) => (
               <SearchArtist
                 {...props}
-                setState={setArtistName}
-                state={artistName}
+                setName={setArtistName}
+                nameState={artistName}
                 getData={getArtistDataByName}
+                artistState={artistData}
+                setArtistState={setArtistData}
               />
             )}
           </Stack.Screen>
-          <Stack.Screen name={"Info about " + artistName}>
+          <Stack.Screen name={"Info about " + artistData.strArtist}>
             {(props) => (
               <ArtistPage
                 {...props}
@@ -102,7 +84,7 @@ export default function App() {
               />
             )}
           </Stack.Screen>
-          <Stack.Screen name={"Albums by " + artistName}>
+          <Stack.Screen name={"Albums by " + artistData.strArtist}>
             {(props) => (
               <AlbumPage
                 {...props}
@@ -121,7 +103,6 @@ export default function App() {
             {(props) => (
               <FeaturedPage
                 {...props}
-                setName={setArtistName}
                 setArtist={setArtistData}
                 setId={setArtistId}
               />
@@ -133,17 +114,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "lightgrey",
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
-  list: {
-    padding: 20,
-    margin: 10,
-    backgroundColor: "#bbb",
-  },
-});

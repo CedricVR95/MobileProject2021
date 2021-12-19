@@ -71,7 +71,7 @@ const ArtistPage = ({
 
             <View style={styles.info}>
               <Text style={styles.infoString}>Label: </Text>
-              <Text style={styles.infoString}>{artist.strLabel}</Text>
+              <Text style={styles.infoString}>{artist.strLabel? artist.strLabel : 'unavailable'}</Text>
             </View>
           </View>
 
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 20,
   },
   descriptionTitle: {
     color: "white",
@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     marginTop: 20,
-    fontSize: 25,
+    textAlign:'center',
+    fontSize: 20,
   },
   infoContainer: {
     alignItems:'stretch'

@@ -19,10 +19,6 @@ interface AlbumProps {
   setName: any;
 }
 
-interface navProp {
-  album: Album;
-}
-
 //--- STRINGS FOR API CALL ---
 const baseURL = "https://theaudiodb.com/api/v1/json/2";
 const getAllTrackInfoByAlbumId: string = "/track.php?m=";
@@ -43,7 +39,6 @@ const AlbumPage = ({ navigation, albumData, setName }: AlbumProps) => {
   const handlePress = async (albumId: number) => {
     try {
       let trackData = await getTracks(albumId);
-      // console.log(trackData);
       setName(trackData[0].strAlbum);
       navigation.navigate(
         trackData[0].strAlbum,

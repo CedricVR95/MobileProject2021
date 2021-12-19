@@ -1,43 +1,42 @@
-import axios from "axios";
 import * as React from "react";
 import {
   View,
   Text,
   TextInput,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
   TouchableOpacity,
   StyleSheet,
-  Button,
   Alert,
+  ScrollView
 } from "react-native";
-import { Artist } from "../../types";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Navigation } from "react-native-navigation";
+import {Artist} from '../../types'
 interface SearchArtistProps {
-  setState: any;
-  state: string;
+  navigation:any;
+  setName: any;
+  nameState: string;
   getData: any;
-  /*ASK FOR TYPES*/
+  artistState:Artist;
+  setArtistState:any;
 }
 
-const SearchArtist = ({ navigation, setState, state, getData }: any) => {
+const SearchArtist = ({ navigation, setName, nameState, getData,artistState, setArtistState}: SearchArtistProps) => {
   const handleChange = (e: string) => {
-    setState(e.trim());
+    setName(e.trimEnd());
   };
 
   const handleSubmit = async () => {
     try {
-      await getData(state);
-      navigation.navigate("Info about " + state);
+      const data = await getData(nameState);
+      // await setArtistState(data);
+      navigation.navigate("Info about " + data.strArtist);
     } catch (e: any) {
       Alert.alert("artist not found");
     }
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.outerContainer}>
+    <View style={styles.innerContainer}>
+
       <View style={styles.search}>
         <Text style={styles.cta}>
           Look for an artist by entering their name
@@ -53,24 +52,26 @@ const SearchArtist = ({ navigation, setState, state, getData }: any) => {
       </View>
 
       <Text style={styles.welcome}>Welcome to the Music Database!</Text>
+      
     </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  outerContainer:{
+    backgroundColor:'black'    
+  },
+  innerContainer: {
     flex: 1,
-    alignItems: "stretch",
-    backgroundColor: "black",
-    justifyContent: "space-between",
+    justifyContent:'center'
   },
   welcome: {
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 50,
-    flex: 1,
-    marginTop: 20,
+    marginTop: 100,
   },
   cta: {
     textAlign: "center",
@@ -78,13 +79,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "white",
     marginBottom: 10,
-    // flex: 1,
+    marginTop:20,
   },
   button: {
     alignSelf: "center",
     borderColor:'white',
     borderWidth:2,
-    borderRadius:20
+    borderRadius:20,
   },
   buttonText: {
     fontWeight: "bold",
@@ -103,11 +104,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 50,
     height: 50,
-    fontSize: 30,
+    fontSize: 20,
+    marginBottom:20
   },
   search: {
-    flex: 1,
-    justifyContent: "space-evenly",
+    // justifyContent: "space-evenly",
   },
 });
 
