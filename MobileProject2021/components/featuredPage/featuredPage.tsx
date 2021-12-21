@@ -32,9 +32,6 @@ const FeaturedPage = ({ navigation, setArtist, setId }: FeaturedProps) => {
     setData(jsonValue != null ? JSON.parse(jsonValue) : null);
   };
 
-  useEffect(() => {
-    loadFavouriteItem();
-  }, [data]);
 
   const handlePress = async (artist: Artist) => {
     await setArtist(artist);
@@ -43,6 +40,7 @@ const FeaturedPage = ({ navigation, setArtist, setId }: FeaturedProps) => {
   };
 
   useEffect(() => {
+    loadFavouriteItem();
     if (pressedFeatured.idArtist !== undefined) {
       handlePress(pressedFeatured);
     }
