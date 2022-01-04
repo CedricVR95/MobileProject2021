@@ -49,8 +49,6 @@ export default function App() {
     setAlbumData(albumInfoById.data.album);
   };
 
-  //============================================================================================================================//
-
   return (
     <SafeAreaProvider>
       <StatusBar hidden/>

@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 50,
     height: 30,
-    // alignSelf: "stretch",
     fontSize: 13,
     marginBottom: 10,
   },

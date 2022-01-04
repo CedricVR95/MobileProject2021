@@ -20,19 +20,16 @@ const Footer = () => {
 
   return (
     <View style={styles.footer}>
-      <TouchableOpacity style={styles.favorites} onPress={handleFeaturedPress}>
+      <TouchableOpacity onPress={handleFeaturedPress}>
         <Text style={styles.bottomText}>Featured</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.favorites}
-        onPress={handleFavouritesPress}
-      >
+      <TouchableOpacity onPress={handleFavouritesPress}>
         <Text style={styles.bottomText}>Favourites</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.favorites} onPress={handleUserPress}>
+      <TouchableOpacity onPress={handleUserPress}>
         <Text style={styles.bottomText}>User</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.search} onPress={handleSearchPress}>
+      <TouchableOpacity onPress={handleSearchPress}>
         <Text style={styles.bottomText}>Search</Text>
       </TouchableOpacity>
     </View>
@@ -48,12 +45,6 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     borderTopWidth: 1,
     borderTopColor: "white",
-  },
-  favorites: {
-    // padding:10
-  },
-  search: {
-    // padding:10
   },
   bottomText: {
     fontWeight: "bold",

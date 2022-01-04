@@ -15,10 +15,6 @@ interface TracksData {
   data: Track[];
 }
 
-interface Props {
-  listRef: MutableRefObject<SectionList<any> | undefined>;
-}
-
 const TracksPage = ({ route }: any) => {
   const { data }: TracksData = route.params;
 
@@ -26,7 +22,7 @@ const TracksPage = ({ route }: any) => {
     <SafeAreaProvider style={styles.trackspage}>
       <FlatList<Track>
       
-        renderItem={({ item } /*strTrackThumb*/) => (
+        renderItem={({ item }) => (
           <View style={styles.track}>
             <View style={styles.infoContainer}>
               <View style={styles.info}>

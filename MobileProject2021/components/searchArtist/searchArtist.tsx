@@ -26,7 +26,6 @@ const SearchArtist = ({ navigation, setName, nameState, getData,artistState, set
   const handleSubmit = async () => {
     try {
       const data = await getData(nameState);
-      // await setArtistState(data);
       navigation.navigate("Info about " + data.strArtist);
     } catch (e: any) {
       Alert.alert("artist not found");
@@ -37,7 +36,7 @@ const SearchArtist = ({ navigation, setName, nameState, getData,artistState, set
     <ScrollView style={styles.outerContainer}>
     <View style={styles.innerContainer}>
 
-      <View style={styles.search}>
+      <View>
         <Text style={styles.cta}>
           Look for an artist by entering their name
         </Text>
@@ -106,9 +105,6 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 20,
     marginBottom:20
-  },
-  search: {
-    // justifyContent: "space-evenly",
   },
 });
 
